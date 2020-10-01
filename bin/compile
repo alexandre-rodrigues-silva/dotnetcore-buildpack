@@ -76,7 +76,7 @@ if [ -e ${NUGETCONFIG}]; then
 	dotnet restore --configfile ${NUGETCONFIG} --runtime linux-x64 ${PROJECT_FILE}
 else
 	echo "dotnet restore ${PROJECT_FILE}"
-	'dotnet restore --runtime linux-x64 ${PROJECT_FILE}'
+	
 	dotnet restore --configfile ${NUGETCONFIG} --runtime linux-x64 ${PROJECT_FILE}
 fi
 
