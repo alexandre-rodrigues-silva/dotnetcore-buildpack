@@ -66,7 +66,7 @@ if [ -n "$(cat $PROJECT_FILE | grep 'netcoreapp2.0')" ]; then
 fi
 
 NUGETCONFIGS=$(find ${BUILD_DIR}/. -maxdepth 3 -iname NuGet.Config)
-printf 'Found %s NuGet config files\n' $(echo "$NUGETCONFIGS" | wc -l | tr -d ' ')
+printf 'Found %s NuGet config files\n' 
 NUGETCONFIG=$(echo "$NUGETCONFIGS" | head -1)
 
 export NUGET_PACKAGES="${CACHE_DIR}/nuget/cache"
@@ -76,8 +76,7 @@ if [ -e ${NUGETCONFIG}]; then
 	dotnet restore --configfile ${NUGETCONFIG} --runtime linux-x64 ${PROJECT_FILE}
 else
 	echo "dotnet restore ${PROJECT_FILE}"
-	
-	dotnet restore --configfile ${NUGETCONFIG} --runtime linux-x64 ${PROJECT_FILE}
+	dotnet restore --runtime linux-x64 ${PROJECT_FILE}
 fi
 
 info "publish ${PROJECT_FILE} for ${BUILD_CONFIGURATION} on ${OUTPUT_DIR}"
