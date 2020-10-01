@@ -71,7 +71,7 @@ NUGETCONFIG=$(echo "$NUGETCONFIGS" | head -1)
 
 export NUGET_PACKAGES="${CACHE_DIR}/nuget/cache"
 
-if [ ! -e ${NUGETCONFIG}]; then
+if [ -e ${NUGETCONFIG}]; then
 	echo "dotnet restore ${PROJECT_FILE} using ${NUGETCONFIG}"
 	dotnet restore --configfile ${NUGETCONFIG} --runtime linux-x64 ${PROJECT_FILE}
 else
