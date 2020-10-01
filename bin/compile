@@ -67,11 +67,11 @@ fi
 
 NUGETCONFIGS=$(find ${BUILD_DIR}/. -maxdepth 3 -iname NuGet.Config)
 printf 'Found %s NuGet config files\n' $(echo "$NUGETCONFIGS" | wc -l | tr -d ' ')
-NUGETCONFIG=$(echo "$NUGETCONFIGS" | head -1)
+NUGETCONFIG=$(echo "$NUGETCONFIGS" | head )
 
 export NUGET_PACKAGES="${CACHE_DIR}/nuget/cache"
 
-if [!-e ${NUGETCONFIG}]; then
+if [ ! -e ${NUGETCONFIG}]; then
 	echo "dotnet restore ${PROJECT_FILE} using ${NUGETCONFIG}"
 	dotnet restore --configfile ${NUGETCONFIG} --runtime linux-x64 ${PROJECT_FILE}
 else
