@@ -64,7 +64,20 @@ if [ -n "$(cat $PROJECT_FILE | grep 'netcoreapp2.0')" ]; then
 	info "For netcoreapp2.0 use https://github.com/jincod/dotnetcore-buildpack#v2.1.200" | indent
 	info "More info https://github.com/jincod/dotnetcore-buildpack/issues/44" | indent
 fi
+
+NUGETCONFIGS=$(find ${SRC_DIR}/. -maxdepth 3 -iname NuGet.Config)
+printf 'Found %s NuGet config files\n' $(echo "$NUGETCONFIGS" | wc -l | tr -d ' ')
+NUGETCONFIG=$(echo "$NUGETCONFIGS" | head -1)
+
 export NUGET_PACKAGES="${CACHE_DIR}/nuget/cache"
+
+if [ ! -e ${NUGETCONFIG}]; then
+	echo "dotnet restore ${PROJECT_FILE} using ${NUGETCONFIG}"
+	dotnet restore --configfile ${NUGETCONFIG} --runtime linux-x64 ${PROJECT_FILE}
+else
+	echo "dotnet restore ${PROJECT_FILE}"
+	dotnet restore --runtime linux-x64 ${PROJECT_FILE}
+fi
 
 info "publish ${PROJECT_FILE} for ${BUILD_CONFIGURATION} on ${OUTPUT_DIR}"
 dotnet publish $PROJECT_FILE --output ${BUILD_DIR}/${OUTPUT_DIR} --configuration ${BUILD_CONFIGURATION} --runtime linux-x64
